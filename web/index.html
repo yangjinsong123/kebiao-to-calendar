@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>课表截图 → 手机日历</title>
+<style>
+:root{--blue:#2563eb;--ink:#0f172a;--mut:#64748b;--line:#e2e8f0;--bg:#f1f5f9;--ok:#16a34a;--warn:#f59e0b}
+*{box-sizing:border-box}
+body{margin:0;font-family:"PingFang SC","Noto Sans CJK SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--ink)}
+header{background:linear-gradient(120deg,#1d4ed8,#7c3aed);color:#fff;padding:22px 24px 18px}
+header h1{margin:0;font-size:26px;letter-spacing:.5px}
+.badges{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
+.badges span{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);padding:3px 10px;border-radius:99px;font-size:13px}
+main{max-width:980px;margin:0 auto;padding:16px}
+.card{background:#fff;border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,.06);padding:16px 18px;margin-bottom:14px}
+.card h2{margin:0 0 12px;font-size:19px;display:flex;align-items:center;gap:8px}
+.num{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;font-size:15px}
+.drop{border:2px dashed #93c5fd;border-radius:12px;padding:18px;text-align:center;color:var(--mut);cursor:pointer;background:#f8fbff;transition:.2s}
+.drop.hover{background:#dbeafe;border-color:var(--blue)}
+.drop img{max-width:100%;max-height:260px;border-radius:8px;display:block;margin:0 auto}
+button{font:inherit;border:0;border-radius:10px;padding:9px 16px;background:var(--blue);color:#fff;cursor:pointer;font-size:15px}
+button.ghost{background:#eef2ff;color:var(--blue)}
+button.big{font-size:17px;padding:12px 22px;background:linear-gradient(120deg,#16a34a,#059669)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
+.status{color:var(--mut);font-size:14px}.status.ok{color:var(--ok)}.status.err{color:#dc2626}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{background:#f8fafc;color:#334155;text-align:left;padding:7px 6px;border-bottom:2px solid var(--line);white-space:nowrap}
+td{padding:3px 4px;border-bottom:1px solid var(--line)}
+td input,td select{width:100%;text-overflow:ellipsis;border:1px solid transparent;border-radius:6px;padding:5px 4px;font:inherit;background:transparent}
+td input:hover,td input:focus,td select:hover{border-color:#cbd5e1;background:#fff}
+.odd{color:#7c3aed;font-weight:600}
+.small{font-size:12.5px;color:var(--mut)}
+.grid2{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.period{display:flex;align-items:center;gap:4px;font-size:13.5px;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:4px 6px}
+.period b{width:52px;white-space:nowrap}.period input{width:58px;border:1px solid #fcd34d;border-radius:5px;padding:2px 3px;font:inherit;background:#fff}
+.chips{display:flex;flex-wrap:wrap;gap:4px;margin:3px 0 8px}
+.chip{font-size:12px;background:#eef2ff;color:#3730a3;border-radius:6px;padding:2px 6px}
+.chip.skip{background:#fee2e2;color:#991b1b;text-decoration:line-through}
+.exp h4{margin:6px 0 0;font-size:14.5px}
+.exp h4 em{font-style:normal;color:var(--mut);font-weight:400;font-size:13px}
+label.f{font-size:14px;color:#334155;display:flex;align-items:center;gap:6px}
+label.f input{font:inherit;padding:5px 7px;border:1px solid #cbd5e1;border-radius:7px}
+.week{display:grid;grid-template-columns:52px repeat(7,1fr);gap:2px;font-size:12px;margin-top:8px}
+.week .h{text-align:center;color:var(--mut);padding:4px 0}
+.week .slot{position:relative;height:560px;background:#f8fafc;border-radius:6px}
+.week .ev{position:absolute;left:2px;right:2px;border-radius:5px;padding:3px 4px;color:#fff;overflow:hidden;line-height:1.25}
+.hide{display:none!important}
+textarea{width:100%;min-height:90px;font:13px monospace;border:1px solid #cbd5e1;border-radius:8px;padding:8px}
+@media(max-width:700px){td{padding:2px 1px}th{padding:6px 2px}td button{padding:3px 5px!important}main{padding:10px}.card{padding:12px 12px}.grid2{grid-template-columns:repeat(2,1fr)}table{font-size:13px}td input,td select{padding:4px 2px}header h1{font-size:23px}}
+footer{text-align:center;color:var(--mut);font-size:12.5px;padding:10px 0 26px}
+</style></head><body>
+<header><h1>📅 课表截图 → 手机日历</h1>
+<div class="badges"><span>🔒 不登教务</span><span>🔑 不输密码</span><span>💻 截图只在本机识别</span><span>⏰ 上课前自动提醒</span></div></header>
+<main>
+<section class="card" id="step1"><h2><span class="num">1</span>上传课表截图，让 AI 读懂课表</h2>
+  <div class="drop" id="drop"><input type="file" id="file" accept="image/*" hidden>
+    <div id="dropTip">把课表截图拖到这里，或 <b style="color:var(--blue)">点击选择图片</b><br><span class="small">支持大多数格子式课表（教务系统、超级课表、学校 App 截图）</span></div>
+    <img id="preview" class="hide" alt="课表预览"></div>
+  <div class="row"><button id="btnOcr">🔍 识别课表（本地 OCR）</button>
+    <button id="btnLlm" class="ghost hide">🤖 用我配置的大模型识别</button>
+    <button id="btnPaste" class="ghost">📋 粘贴 AI 返回的表格</button>
+    <span class="status" id="st1"></span></div>
+  <div id="pasteBox" class="hide" style="margin-top:10px">
+    <div class="small">在 Cursor / 任意 AI 里丢进截图，用这段提示词，把它返回的表格粘贴到下面：</div>
+    <div class="small" id="prompt" style="background:#f8fafc;padding:8px;border-radius:8px;margin:6px 0"></div>
+    <textarea id="pasteText" placeholder="| 课程 | 老师 | 教室 | 星期 | 节次 | 周次 |"></textarea>
+    <div class="row"><button id="btnParse" class="ghost">导入表格</button></div></div>
+  <div id="tableWrap" class="hide" style="margin-top:12px;overflow:auto">
+    <table style="table-layout:fixed"><colgroup><col style="width:27%"><col style="width:12%"><col style="width:18%"><col style="width:12%"><col style="width:11%"><col style="width:16%"><col style="width:34px"></colgroup><thead><tr><th>课程</th><th>老师</th><th>教室</th><th>星期</th><th>节次</th><th>周次</th><th></th></tr></thead><tbody id="tbody"></tbody></table>
+    <div class="row"><button class="ghost" id="btnAdd">＋ 加一行</button><span class="small">识别结果可以直接点格子修改</span></div></div>
+</section>
+
+<section class="card" id="step2"><h2><span class="num">2</span>生成日历文件（.ics）</h2>
+  <div class="row" style="margin-top:0">
+    <label class="f">开学日期（第 1 周）<input type="text" id="start" value="2026-09-07" placeholder="2026-09-07" style="width:120px"></label>
+    <label class="f">提前提醒 <input type="number" id="alarm" value="10" min="0" max="120" style="width:64px"> 分钟</label>
+    <label class="f">放假不上课 <input type="text" id="skipA" placeholder="如 2026-10-01" style="width:130px"> 至 <input type="text" id="skipB" placeholder="2026-10-07" style="width:120px"></label></div>
+  <h3 style="font-size:15.5px;margin:14px 0 6px">⏱ 节次时间表 <span class="small">（示例作息，按你学校改）</span></h3>
+  <div class="grid2" id="periods"></div>
+  <div class="row"><button id="btnExpand" class="ghost">🗓 展开单双周 → 具体日期</button><span class="status" id="st2"></span></div>
+  <div id="expand" class="exp"></div>
+</section>
+
+<section class="card" id="step3"><h2><span class="num">3</span>导入手机日历</h2>
+  <div class="row" style="margin-top:0"><button class="big" id="btnIcs">⬇️ 生成并下载 课表.ics</button><span class="status" id="st3"></span></div>
+  <p class="small">把 课表.ics 发到手机（微信文件传输助手 / AirDrop / 邮件），点开 →「添加到日历」。iPhone 可直接导入；安卓按品牌略有不同（多数在「日历 → 导入」）。</p>
+  <div class="row" style="margin-top:4px"><b style="font-size:15px">本周预览</b>
+    <button class="ghost" id="wkPrev">‹</button><span id="wkLabel" class="small"></span><button class="ghost" id="wkNext">›</button></div>
+  <div class="week" id="week"></div>
+</section>
+<footer>开源 · MIT License · 截图不会离开你的电脑（除非你主动开启大模型模式）</footer>
+</main>
+<script>
+const $=s=>document.querySelector(s);
+let courses=[],periods={},file=null,curWeek=1;
+const WD=["一","二","三","四","五","六","日"];
+const COLORS=["#3b82f6","#ec4899","#22c55e","#f59e0b","#8b5cf6","#06b6d4","#ef4444","#14b8a6","#6366f1","#84cc16"];
+fetch("/api/config").then(r=>r.json()).then(c=>{periods=c.periods;renderPeriods();$("#prompt").textContent=c.prompt;if(c.llm_enabled)$("#btnLlm").classList.remove("hide")});
+function renderPeriods(){const keys=Object.keys(periods).sort((a,b)=>a-b);
+ $("#periods").innerHTML=keys.map(k=>`<div class="period"><b>第${k}节</b><input data-k="${k}" data-i="0" value="${periods[k][0]}">-<input data-k="${k}" data-i="1" value="${periods[k][1]}"></div>`).join("");
+ $("#periods").querySelectorAll("input").forEach(i=>i.oninput=()=>{periods[i.dataset.k][+i.dataset.i]=i.value});}
+const drop=$("#drop");
+drop.onclick=()=>$("#file").click();
+drop.ondragover=e=>{e.preventDefault();drop.classList.add("hover")};
+drop.ondragleave=()=>drop.classList.remove("hover");
+drop.ondrop=e=>{e.preventDefault();drop.classList.remove("hover");setFile(e.dataTransfer.files[0])};
+$("#file").onchange=e=>setFile(e.target.files[0]);
+function setFile(f){if(!f)return;file=f;const img=$("#preview");img.src=URL.createObjectURL(f);img.classList.remove("hide");$("#dropTip").classList.add("hide");$("#st1").textContent=f.name}
+async function recog(mode){if(!file){st("#st1","先选一张截图","err");return}
+ st("#st1",mode==="llm"?"🤖 大模型识别中…":"🔍 正在本机识别…");
+ const fd=new FormData();fd.append("image",file);fd.append("mode",mode);
+ const t0=performance.now();const r=await fetch("/api/recognize",{method:"POST",body:fd});const j=await r.json();
+ if(j.error){st("#st1",j.error,"err");return}
+ courses=j.courses;for(const k in j.periods||{}){periods[k]=periods[k]||["",""];j.periods[k].forEach((v,i)=>{if(v)periods[k][i]=v})}
+ renderPeriods();if(j.semester_start)$("#start").value=j.semester_start;
+ renderTable();st("#st1",`✅ 识别出 ${courses.length} 门次课程（${((performance.now()-t0)/1000).toFixed(1)} 秒）`,"ok");refreshWeek();}
+$("#btnOcr").onclick=()=>recog("ocr");$("#btnLlm").onclick=()=>recog("llm");
+$("#btnPaste").onclick=()=>$("#pasteBox").classList.toggle("hide");
+$("#btnParse").onclick=async()=>{const j=await (await fetch("/api/table",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text:$("#pasteText").value})})).json();
+ if(j.error){st("#st1",j.error,"err");return}courses=j.courses;renderTable();st("#st1",`✅ 导入 ${courses.length} 门次课程`,"ok");refreshWeek()};
+function st(s,t,c){const e=$(s);e.textContent=t;e.className="status "+(c||"")}
+function renderTable(){$("#tableWrap").classList.remove("hide");
+ $("#tbody").innerHTML=courses.map((c,i)=>`<tr data-i="${i}">
+ <td><input data-f="name" value="${c.name}"></td><td><input data-f="teacher" value="${c.teacher||""}"></td>
+ <td><input data-f="room" value="${c.room||""}"></td>
+ <td><select data-f="weekday">${WD.map((w,k)=>`<option value="${k+1}" ${c.weekday==k+1?"selected":""}>周${w}</option>`).join("")}</select></td>
+ <td><input data-f="sec" value="${c.start_period}-${c.end_period}节"></td>
+ <td><input data-f="weeks" value="${c.weeks}" class="${/[单双]/.test(c.weeks)?"odd":""}"></td>
+ <td><button class="ghost" data-del="${i}" style="padding:3px 8px">✕</button></td></tr>`).join("");
+ $("#tbody").querySelectorAll("input,select").forEach(el=>el.oninput=()=>{const c=courses[el.closest("tr").dataset.i];
+   if(el.dataset.f==="sec"){const n=(el.value.match(/\d+/g)||[]).map(Number);if(n.length){c.start_period=Math.min(...n);c.end_period=Math.max(...n)}}
+   else c[el.dataset.f]=el.dataset.f==="weekday"?+el.value:el.value;refreshWeek()});
+ $("#tbody").querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{courses.splice(+b.dataset.del,1);renderTable();refreshWeek()});}
+$("#btnAdd").onclick=()=>{courses.push({name:"新课程",teacher:"",room:"",weekday:1,start_period:1,end_period:2,weeks:"1-16周"});renderTable()};
+function payload(){const skip=$("#skipA").value?[[$("#skipA").value,$("#skipB").value||$("#skipA").value]]:[];
+ return {courses,periods,start:$("#start").value,alarm:+$("#alarm").value,skip}}
+async function expand(){const j=await (await fetch("/api/expand",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload())})).json();
+ if(j.error){st("#st2",j.error,"err");return null}return j.items}
+$("#btnExpand").onclick=async()=>{const items=await expand();if(!items)return;
+ const sorted=items.map((it,i)=>({...it,i})).sort((a,b)=>(/[单双]/.test(b.weeks))-(/[单双]/.test(a.weeks)));
+ $("#expand").innerHTML=sorted.map(it=>`<h4>${it.name} <em>周${WD[courses[it.i].weekday-1]} ${it.time} · <span class="${/[单双]/.test(it.weeks)?"odd":""}">${it.weeks}</span> → ${it.dates.length} 次</em></h4>
+ <div class="chips">${it.dates.map(d=>`<span class="chip">${d.slice(5).replace("-","/")}</span>`).join("")}</div>`).join("");
+ st("#st2",`✅ 共 ${items.reduce((a,b)=>a+b.dates.length,0)} 节课`,"ok")};
+$("#btnIcs").onclick=async()=>{const r=await fetch("/api/ics",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload())});
+ const blob=await r.blob();const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="课表.ics";a.click();
+ const n=(await blob.text()).split("BEGIN:VEVENT").length-1;st("#st3",`✅ 已生成 课表.ics（${n} 条重复日程，提前 ${$("#alarm").value} 分钟提醒）`,"ok")};
+async function refreshWeek(){if(!courses.length)return;const items=await expand();if(!items)return;
+ const s=new Date($("#start").value+"T00:00:00");const mon=new Date(s);mon.setDate(s.getDate()-((s.getDay()+6)%7)+7*(curWeek-1));
+ const fmt=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+ $("#wkLabel").textContent=`第 ${curWeek} 周（${fmt(mon).slice(5)} 起）`;
+ const H0=7.5,H1=21,PX=560/(H1-H0);let html=`<div class="h"></div>`;
+ for(let d=0;d<7;d++){const day=new Date(mon);day.setDate(mon.getDate()+d);html+=`<div class="h">周${WD[d]}<br>${day.getMonth()+1}/${day.getDate()}</div>`}
+ html+=`<div class="slot" style="background:none">${[8,10,12,14,16,18,20].map(h=>`<div style="position:absolute;top:${(h-H0)*PX}px;right:4px;color:#94a3b8">${h}:00</div>`).join("")}</div>`;
+ const names=[...new Set(courses.map(c=>c.name))];
+ for(let d=0;d<7;d++){const day=new Date(mon);day.setDate(mon.getDate()+d);const ds=fmt(day);html+=`<div class="slot">`;
+  items.forEach((it,i)=>{if(!it.dates.includes(ds))return;const [a,b]=it.time.split("-").map(t=>{const[h,m]=t.split(":");return +h+m/60});
+   html+=`<div class="ev" style="top:${(a-H0)*PX}px;height:${(b-a)*PX}px;background:${COLORS[names.indexOf(it.name)%COLORS.length]}"><b>${it.name}</b><br>${courses[i].room||""}</div>`});
+  html+="</div>"}
+ $("#week").innerHTML=html}
+$("#wkPrev").onclick=()=>{if(curWeek>1){curWeek--;refreshWeek()}};$("#wkNext").onclick=()=>{curWeek++;refreshWeek()};
+["#start","#skipA","#skipB"].forEach(s=>$(s).onchange=refreshWeek);
+</script></body></html>

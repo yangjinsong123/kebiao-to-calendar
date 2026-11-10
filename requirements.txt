@@ -1,0 +1,5 @@
+flask>=3.0
+rapidocr-onnxruntime>=1.2
+opencv-python-headless>=4.8
+icalendar>=5.0      # 仅测试用，用来校验生成的 .ics
+python-dateutil

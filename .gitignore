@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.venv/
+*.ics
+!examples/*.ics
+.pytest_cache/

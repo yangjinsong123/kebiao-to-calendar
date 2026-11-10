@@ -1,0 +1,18 @@
+[
+ {"name":"高等数学A(上)","teacher":"王建国","room":"3教201","weekday":1,"start_period":1,"end_period":2,"weeks":"1-16周"},
+ {"name":"大学英语(二)","teacher":"李晓雯","room":"2教105","weekday":1,"start_period":3,"end_period":4,"weeks":"1-16周"},
+ {"name":"线性代数","teacher":"赵明","room":"3教305","weekday":1,"start_period":7,"end_period":8,"weeks":"1-12周"},
+ {"name":"C语言程序设计","teacher":"陈思远","room":"实验楼B210","weekday":2,"start_period":1,"end_period":2,"weeks":"1-16周"},
+ {"name":"中国近现代史纲要","teacher":"刘红","room":"1教101","weekday":2,"start_period":3,"end_period":4,"weeks":"1-16周"},
+ {"name":"体育(篮球)","teacher":"周强","room":"东区体育馆","weekday":2,"start_period":5,"end_period":6,"weeks":"1-16周"},
+ {"name":"高等数学A(上)","teacher":"王建国","room":"3教201","weekday":3,"start_period":1,"end_period":2,"weeks":"1-16周"},
+ {"name":"大学物理","teacher":"孙立","room":"4教402","weekday":3,"start_period":3,"end_period":4,"weeks":"1-15周(单)"},
+ {"name":"物理实验","teacher":"孙立","room":"实验楼A305","weekday":3,"start_period":3,"end_period":4,"weeks":"2-16周(双)"},
+ {"name":"Python数据分析","teacher":"郑凯","room":"3教110","weekday":3,"start_period":9,"end_period":10,"weeks":"3-14周"},
+ {"name":"大学英语(二)","teacher":"李晓雯","room":"2教105","weekday":4,"start_period":1,"end_period":2,"weeks":"1-16周"},
+ {"name":"线性代数","teacher":"赵明","room":"3教305","weekday":4,"start_period":3,"end_period":4,"weeks":"1-12周"},
+ {"name":"C语言上机","teacher":"陈思远","room":"实验楼B210","weekday":4,"start_period":5,"end_period":6,"weeks":"2-16周(双)"},
+ {"name":"心理健康教育","teacher":"吴静","room":"1教203","weekday":5,"start_period":1,"end_period":2,"weeks":"1-8周"},
+ {"name":"职业生涯规划","teacher":"何平","room":"1教101","weekday":5,"start_period":3,"end_period":4,"weeks":"1-8,10-16周"},
+ {"name":"大学物理","teacher":"孙立","room":"4教402","weekday":5,"start_period":5,"end_period":6,"weeks":"1-16周"}
+]
